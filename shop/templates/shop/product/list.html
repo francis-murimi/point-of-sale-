@@ -1,0 +1,44 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+{% block content %}
+<br>
+<!-- Use any element to open the sidenav -->
+<span onclick="openNav()" style="background-color: cornflowerblue; border: 2px solid black; border-radius: 4px; padding: 5px; margin-top: 0px;"title="Choose category">Categories</span>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+    <ul> 
+        <li {% if not category %}class="selected"{% endif %}>
+            <a href="{% url  'shop:product_list' %}">All</a>
+        </li>
+        {% for c in categories %}
+        <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+    
+    <div class="container">
+        <div class="row">
+            <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
+                {% for product in products %}
+            <div class="col">
+                <div style="border: 1px solid black; text-align: center; border-radius: 5px; margin-bottom: 7px;">
+                    <a href="{{ product.product_detail}}" style="text-decoration: none;color: black;">
+                        <div tabindex="-1" style="background-color: rgb(248, 242, 242);">
+                            {{ product.name }}<br>
+                            Ksh{{ product.price }} <span style="color: rgb(245, 71, 71);font-size: large;">{{product.stock}}</span>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <a href="{{product.product_price}}" style="text-decoration: none;"> <button class="btn btn-info btn-sm">Update</button> </a>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

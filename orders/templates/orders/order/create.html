@@ -1,0 +1,60 @@
+{% extends "shop/base.html" %}
+{% load widget_tweaks %}
+{% block title %}
+Checkout
+{% endblock %}
+{% block content %}
+<div class="container" style="margin-bottom: 20px;">
+    <h1>Checkout</h1>
+    <div class="order-info" style="border: 1px black solid;padding: 5px;border-radius: 5px; background-color: white;">
+        <h3 style="color: maroon;">Your order</h3>
+        <ul>
+            {% for item in cart %}
+            <li>
+                {{ item.quantity }}x {{ item.product.name }}
+                <span>Ksh{{ item.total_price }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <p style="color: maroon;">Total: Ksh{{ cart.get_total_price }}</p>
+    </div>
+    <br>
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {% if form.is_bound %}
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            {% else %}
+                {% render_field field class="form-control is-valid" %}
+            {% endif %}
+            {% else %}
+            {% render_field field class="form-control" %}
+            {% endif %}
+            {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" style="margin-top: 15px;">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

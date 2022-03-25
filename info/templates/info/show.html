@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    
+    <script language ="javascript" type="text/javascript">
+        function popitup(url){
+            newwindow = window.open(url,'{{title}}','height=400,width=250');
+            if (window.focus) {newwindow.focus()}
+            return false;
+        }
+        function daily(){
+            var d = document.getElementById("daily")
+            var w = document.getElementById("weekly")
+            var m = document.getElementById("monthly")
+            var y = document.getElementById("yearly")
+            d.style.display = "block"
+            w.style.display = "none"
+            m.style.display = "none"
+            y.style.display = "none"
+        }
+        function weekly(){
+            var d = document.getElementById("daily")
+            var w = document.getElementById("weekly")
+            var m = document.getElementById("monthly")
+            var y = document.getElementById("yearly")
+            d.style.display = "none"
+            w.style.display = "block"
+            m.style.display = "none"
+            y.style.display = "none"
+        }
+        function monthly(){
+            var d = document.getElementById("daily")
+            var w = document.getElementById("weekly")
+            var m = document.getElementById("monthly")
+            var y = document.getElementById("yearly")
+            d.style.display = "none"
+            w.style.display = "none"
+            m.style.display = "block"
+            y.style.display = "none"
+        }
+        function yearly(){
+            var d = document.getElementById("daily")
+            var w = document.getElementById("weekly")
+            var m = document.getElementById("monthly")
+            var y = document.getElementById("yearly")
+            d.style.display = "none"
+            w.style.display = "none"
+            m.style.display = "none"
+            y.style.display = "block"
+        }
+    </script>
+    <style>
+        .changer{
+            background-color: rgb(70, 70, 177);
+            color: aliceblue;
+            padding: 5px;
+            border-radius: 7px;
+            float: left;
+            margin-left: 5px;
+        }
+        .details{
+            color: black; 
+            font-size: large; 
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home:home'%}">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'shop:product_list'%}">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'info:my_time' %}">All Time Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'info:access_grant' %}" class="l_link">Select Time</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:shop_detail' %}">Shop Detail</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ADD
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'home:check_package' %}">Add product</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shop:add_category' %}">Add category</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="padding-top: 65px;"></div>
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary" style="margin-top: 15px;">Submit</button>
+    </form>
+    <hr>
+    {{ tarehe|date:"D,d F,Y" }}
+    <hr>
+    <div style="width: 100%;height: 30px;">
+        <button class="changer" onclick="daily()">Daily</button>
+        <button class="changer" onclick="weekly()">weekly</button>
+        <button class="changer" onclick="monthly()">monthly</button>
+        <button class="changer" onclick="yearly()">yearly</button>
+    </div>
+    <hr>
+    <div id="daily" style="display: block;">
+        {{ tarehe|date:"D,d F,Y" }}
+        <br>
+        <div class="details">
+            Total sales: <span style="color: brown; font-size: larger;">{{sales}}</span> 
+            <br>
+            Total expenditure on sold products: <span style="color: rgb(236, 11, 11); font-size: larger;">{{cost}}</span> 
+            <br>
+            Total profit: <span style="color: green; font-size: larger;">{{profit}}</span> 
+            <br>
+            Profitability rate: <span style="color: rgb(146, 230, 11); font-size: larger;">{{rate|floatformat:4}}%</span> 
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+            {% if orders %}
+            <div class="row">
+                {%for order in orders %}
+                <div class="col">
+                    <div style="width: max-content; border: 1px green solid;margin-bottom: 3px;">
+                        Sale {{order.get_total_cost}} <br>
+                        <a href="{{order.get_order_detail}}" style="text-decoration: none;" onclick="return popitup('{{order.get_order_detail}}')">Profit: {{order.get_total_profit}} </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                No sales were made or recorded on the selected date.
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="weekly" style="display: none;">
+        From {{weekday|date:"D, d F, Y" }} to  {{ tarehe|date:"D,d F,Y" }}
+        <br>
+        <div class="details">
+            Total sales: <span style="color: brown; font-size: larger;">{{w_sales}}</span> 
+            <br>
+            Total expenditure on sold products: <span style="color: rgb(236, 11, 11); font-size: larger;">{{w_cost}}</span> 
+            <br>
+            Total profit: <span style="color: green; font-size: larger;">{{w_profit}}</span> 
+            <br>
+            Profitability rate: <span style="color: rgb(146, 230, 11); font-size: larger;">{{w_rate|floatformat:4}}%</span> 
+        </div>
+        Items sold
+        <div class="container" style="margin-bottom: 10px;">
+            <div class="row">
+                {% for a in ww %}
+                <div class="col">
+                    <div style="color: green; font-size: large; font-weight: 500;width: max-content;">
+                        Product: <span style="color: black;">{{a.name}}</span> <br>
+                        Pieces sold: <span style="color: rgb(199, 36, 36); font-size: larger;">{{a.total_quantity}}  </span> 
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <hr>
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+            {% if weekly_orders %}
+            <div class="row">
+                {%for order in weekly_orders %}
+                <div class="col">
+                    <div style="width: max-content;border: 1px green solid; margin-bottom: 3px;">
+                        Sale {{order.get_total_cost}} <br>
+                        <a href="{{order.get_order_detail}}" style="text-decoration: none;" onclick="return popitup('{{order.get_order_detail}}')">Profit: {{order.get_total_profit}} </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                No sales were made or recorded on the selected week.
+            {% endif %}
+        </div>
+    </div>
+    
+    <div id="monthly" style="display: none;">
+        Month of {{ tarehe|date:"F,Y" }}
+        <br>
+        <div class="details">
+            Total sales: <span style="color: brown; font-size: larger;">{{m_sales}}</span> 
+            <br>
+            Total expenditure on sold products: <span style="color: rgb(236, 11, 11); font-size: larger;">{{m_cost}}</span> 
+            <br>
+            Total profit: <span style="color: green; font-size: larger;">{{m_profit}}</span> 
+            <br>
+            Profitability rate: <span style="color: rgb(146, 230, 11); font-size: larger;">{{m_rate|floatformat:4}}%</span> 
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+            {% if monthly_orders %}
+            <div class="row">
+                {%for order in monthly_orders %}
+                <div class="col">
+                    <div style="width: max-content;border: 1px green solid;margin-bottom: 3px;">
+                        Sale {{order.get_total_cost}} <br>
+                        <a href="{{order.get_order_detail}}" style="text-decoration: none;" onclick="return popitup('{{order.get_order_detail}}')">Profit: {{order.get_total_profit}} </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                No sales were made or recorded on the selected month.
+            {% endif %}
+        </div>
+    </div>
+    
+    <div id="yearly" style="display: none;">
+        Year {{ tarehe|date:"Y" }}
+        <br>
+        <div class="details">
+            Total sales: <span style="color: brown; font-size: larger;">{{y_sales}}</span> 
+            <br>
+            Total expenditure on sold products: <span style="color: rgb(236, 11, 11); font-size: larger;">{{y_cost}}</span> 
+            <br>
+            Total profit: <span style="color: green; font-size: larger;">{{y_profit}}</span> 
+            <br>
+            Profitability rate: <span style="color: rgb(146, 230, 11); font-size: larger;">{{y_rate|floatformat:4}}%</span> 
+        </div>
+        Items sold
+        <div class="container" style="margin-bottom: 10px;">
+            <div class="row">
+                {% for a in yy %}
+                <div class="col">
+                    <div style="color: green; font-size: large; font-weight: 500;width: max-content;">
+                        Product: <span style="color: black;">{{a.name}}</span> <br>
+                        Pieces sold: <span style="color: rgb(199, 36, 36); font-size: larger;">{{a.total_quantity}}  </span> 
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <hr>
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+            {% if yearly_orders %}
+            <div class="row">
+                {%for order in yearly_orders %}
+                <div class="col">
+                    <div style="width: max-content;border: 1px green solid;margin-bottom: 3px;">
+                        Sale {{order.get_total_cost}} <br>
+                        <a href="{{order.get_order_detail}}" style="text-decoration: none;" onclick="return popitup('{{order.get_order_detail}}')">Profit: {{order.get_total_profit}} </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                No sales were made or recorded on the selected year.
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

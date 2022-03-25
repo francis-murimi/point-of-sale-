@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <style>
+        .name{
+            text-align: center;
+            margin-top: 10px;
+            color: green;
+        }
+        .phrase{
+            font-size: smaller;
+            text-align: center;
+            color: red;
+            margin-bottom: 7px;
+        }
+        .heading{
+            color: green;
+            font-size: larger;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        .listitem{
+            color: black; 
+            font-size: larger;
+            font-weight: 500;
+        }
+        .quote{
+            text-align: center;
+            border: 2px solid green;
+            border-left: 0ch;
+            border-right: 0ch;
+            border-top: 0ch;
+            color: green;
+            font-weight: bold;
+            font-style: italic;
+            background-color: rgb(247, 246, 248);
+            padding: 13px;
+            width: 95%;
+            box-shadow: 0 18px 36px rgba(0,0,0,0.30),0 4px 5px rgba(157, 190, 162, 0.22);
+            border-radius: 15px;
+            margin: auto;
+        }
+        .c_link{
+            background-color: whitesmoke; 
+            width: 200px; 
+            margin-left: 10%; 
+            padding: 10px; 
+            border-radius: 7px;
+            margin-top: 10px;
+        }
+        .l_link{
+            text-decoration: none;
+            color: green;
+            font-size: x-large;
+            font-weight: 500;
+        }
+        
+    </style>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif;" class="container-fluid">
+    <header>
+        <div class="name">
+            <h3>ANALYBIZ</h3>
+        </div>
+        <div class="phrase">
+            Transforming data into business insights
+        </div>
+    </header>
+    <div style="text-align: center; margin-bottom: 5px;">
+        <a href="{% url 'home:register'%}"> <button class="btn btn-success" style="margin-right: 20px;">REGISTER</button></a>
+        <a href="{% url 'home:log_in'%}" > <button class="btn btn-success">LOG IN</button></a>
+    </div>
+    <div style="text-align: center;">
+        {% if request.user.is_superuser %}
+            <a href="{% url 'home:check_payment' %}"> <button class="btn btn-primary btn-sm">Payments</button></a>
+        {% endif %}
+    </div>
+    <div>
+            {% if request.user.is_authenticated %}
+                <div style="text-align: center;margin-bottom: 10px; background-color: azure; padding: 10px;">
+                    <span style="color: black;">{{ username|capfirst }},welcome to {{shop.shop_name}}</span> <br>
+                    <a href="{% url 'shop:product_list'%}" class="l_link"> Shop</a><br>
+                    <a href="{% url 'info:my_time' %}" class="l_link">All Time Sales</a><br>
+                    <a href="{% url 'info:show_time' %}" class="l_link">Select Time</a>
+                </div>
+            {% endif %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="shadow p-3 mb-5 bg-body rounded" style="border: 1px solid green">
+                    <div class="heading">Get the value of your data in four simple steps</div>
+                    <ol>
+                            <li class="listitem">
+                                Open an account with us for a subscription.
+                                <ul>
+                                    <li style="color:grey; font-size:medium;font-weight:400">Ksh 299 per month</li>
+                                    <li style="color:grey; font-size:medium;font-weight:400">Ksh 2999 per year</li>
+                                </ul>
+                        <li class="listitem">
+                            Record your products
+                        </li>
+                        <li class="listitem">
+                            Record your sales 
+                        </li>
+                        <li class="listitem">
+                            View your daily, weekly, monthly and yearly analysis.
+                        </li>
+                </ol>
+                </div>
+            </div>
+            <div class="col">
+                <div class="shadow p-3 mb-5 bg-body rounded" style="border: 1px solid green">
+                    <div class="heading">Why should you choose us?</div>
+                    <ol>
+                        <li class="listitem">
+                            Access your business data anywhere and anytime.
+                        </li>
+                        <li class="listitem">
+                            We provide guaranteed security and enough storage space for your records.
+                        </li>
+                        <li class="listitem">
+                            Enjoy simplicity and focus on what matters most. (<span style="color:grey; font-size:medium;font-weight:400">business operation</span>)
+                        </li>
+                        <li class="listitem">
+                            Access your business data on multiple devices.
+                        </li>
+                </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="quote">
+        DATA WILL TALK TO YOU IF YOU ARE WILLING TO LISTEN.  <span style="color: cadetblue;">&mdash; Jim Bergson</span>
+    </div>
+    <div class="container" style="margin-top: 10px;">
+        <div class="heading" style="color: black;text-align: center;">Important links</div>
+        <div class="row">
+            <div class="col">
+                <div class="heading" style="text-align: center;">Accounts</div>
+                <div class="links">
+                    <div class="c_link"><a href="{% url 'home:register'%}" style="text-decoration: none; font-weight: 500;">&nbsp&nbspREGISTER</a></div>
+                    <div class="c_link"><a href="{% url 'home:log_in'%}" style="text-decoration: none; font-weight: 500;">&nbsp&nbspLOG IN</a></div>
+                    <div class="c_link"><a href="{% url 'home:log_out'%}" style="text-decoration: none; font-weight: 500;">&nbsp&nbspLOG OUT</a></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="heading" style="text-align: center;">CONTACTS</div>
+                <div class="links">
+                    <div class="c_link"><a href="https://wa.me/254762245736?text=I'm%20a%20very%20important%20part%20of%20your%20site" target="_blank" style="text-decoration: none; font-weight: 500;"><span><img src="https://image.flaticon.com/icons/png/512/124/124034.png" style="width: 30px; border-radius: 5px;"></span>&nbsp&nbspWhatsapp</a></div>
+                    <div class="c_link"><a href="mailto:freenty001@gmail.com?&subject=I%20Am%20A%20Customer&body=I%20have%20an%20issue%20with%20my" target="_blank" style="text-decoration: none; font-weight: 500;"><span><img src="https://www.flaticon.com/svg/vstatic/svg/732/732200.svg?token=exp=1614147634~hmac=344edcc3fcb6068b6b1d5c90617033e4" style="width: 30px; border-radius: 5px;"></span>&nbsp&nbspEmail</a></div>
+                    <div class="c_link"><a href="tel:+254743597479" style="text-decoration: none; font-weight: 500;"><span><img src="https://png.pngtree.com/png-clipart/20200225/original/pngtree-phone-icon-isolated-on-abstract-background-png-image_5261328.jpg" style="width: 30px; border-radius: 5px;"></span>&nbsp&nbspCall</a></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="heading" style="text-align: center;">GUIDES</div>
+                <div class="links">
+                    <div class="c_link"><a href="{% url 'home:documentation'%}" style="text-decoration: none; font-weight: 500;">&nbsp&nbspDOCUMENTATION</a></div>
+                    <div class="c_link"><a href="" style="text-decoration: none; font-weight: 500;">&nbsp&nbspBLOG</a></div>
+                    <div class="c_link"><a href="" style="text-decoration: none; font-weight: 500;">&nbsp&nbspLOG OUT</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

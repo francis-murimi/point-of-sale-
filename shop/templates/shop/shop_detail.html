@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop details</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <style>
+        .product{
+            width: max-content;
+            color: green;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home:home'%}">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'shop:product_list'%}">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'info:my_time' %}">All Time Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'info:access_grant' %}" class="l_link">Select Time</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:shop_detail' %}">Shop Detail</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ADD
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'home:check_package' %}">Add product</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shop:add_category' %}">Add category</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="padding-top: 65px; color: rgb(240, 11, 11);">
+        Ordered by product stock
+        <hr>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% for p in product %}
+            <div class="col">
+                <div class="product">
+                    Name: <a href="{{ p.product_update }}" style="text-decoration: none;">{{p.name}}</a> <br>
+                    Category: <span style="color: black;">{{p.category}}</span>  <br>
+                    Stock: <span style="color: rgb(240, 11, 11); font-size: larger;">{{p.stock}}</span> <br>
+                    Cost: <span style="color: black;">Ksh{{p.cost}}</span>  <br>
+                    Value: <span style="color: black;">Ksh{{p.product_value}}</span> 
+                    <hr>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
